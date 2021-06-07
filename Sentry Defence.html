@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Sentry Defence</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="startMenu" onclick="this.style.visibility='hidden'; this.style.animationName=''; document.getElementById('menu').style.top='50%'; menuTheme.play();"><br /><br /><br /><br /><br /><br /><br /><br /><br />Click To Play</div>
+<div id="menu">
+    <div id="start" onclick="document.getElementById('menu').style.top='127%'; menuTheme.pause(); press.play(); setup();"><img src="img/start.png" alt="" width="100%" />Start</div>
+    <div id="info" onclick="press.play();"><img src="img/info.png" alt="" width="100%" />Info</div>
+    <div id="quit" onclick="press.play();"><img src="img/quit.png" alt="" width="100%" />Quit</div>
+</div>
+<img id="player" src="img/TD_0019_Package-----------------.png" alt="" draggable="false" />
+<canvas id="projectiles" draggable="false"></canvas>
+
+<footer>A GAME MADE BY: MAKSYMILIAN NOWAK &copy;2021</footer>
+
+<script src="enemies.js"></script>
+<script src="player.js"></script>
+<script src="waves.js"></script>
+<script src="upgrades.js"></script>
+
+<script>
+    
+    document.onload=function(){
+        press.addEventListener("canplaythrough", _=>press.play());
+    }
+    window.addEventListener("resize", function(){
+        proj.width=innerWidth;
+        proj.height=innerHeight;
+    });
+    var menuTheme=new Audio("sounds/menuTheme.wav");
+    menuTheme.setAttribute("loop", "");
+    var press=new Audio("sounds/click.wav");
+    var nextFrame;
+    function setup(){
+        player.style.visibility="visible";
+        proj.style.visibility="visible";
+        window.addEventListener("click", _=>newBullet("bullet1", true));
+        update();
+    }
+    function update(){
+        rotatePlayer();
+        moveProjectiles();
+        nextFrame=requestAnimationFrame(update);
+    }
+    
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+body{
+    background: url(img/galaxy1.jpg);
+    background-size: cover;
+    margin: 0;
+    user-select: none;
+    text-align: center;
+    color: white;
+    font-family: 'Boxy-Bold';
+    overflow: hidden;
+}
+@font-face {
+    font-family: Boxy-Bold;
+    src: url(Boxy-Bold.ttf);
+}
+@keyframes hover{
+    from{transform: scale(1);}
+    to{transform: scale(1.3);}
+}
+@keyframes fadeInOut{
+    0%{opacity: 1;}
+    50%{opacity: 0.4;}
+    100%{opacity: 1;}
+}
+#startMenu{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation-name: fadeInOut;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+    font-size: 32px;
+    z-index: 2;
+}
+#menu{
+    position: absolute;
+    top: -27%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 50%;
+    border-radius: 20px;
+    border: 2px solid white;
+    transition: all 1s ease-in-out;
+}
+#start, #info, #quit{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.7s ease-in-out;
+    cursor: pointer;
+}
+#start:hover, #info:hover, #quit:hover{
+    transform: translate(-50%, -50%) scale(1.3) rotateY(360deg);
+}
+#info{
+    left: 22%;
+}
+#quit{
+    left: 78%;
+}
+#player{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    z-index: 3;
+}
+#projectiles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    z-index: 2;
+}
+footer{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 8px;
+}
