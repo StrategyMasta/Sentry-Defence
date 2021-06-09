@@ -36,15 +36,19 @@
     menuTheme.setAttribute("loop", "");
     var press=new Audio("sounds/click.wav");
     var nextFrame;
+    var tick=0;
     function setup(){
         player.style.visibility="visible";
         proj.style.visibility="visible";
         window.addEventListener("click", _=>newBullet("bullet1", true));
+        //enemiesInt=setInterval(_=>enemies.push(new Enemy("turret1", false)), 1000);
         update();
     }
     function update(){
+        tick++;
         rotatePlayer();
         moveProjectiles();
+        enemies.forEach((item, index)=>item.moveToPlayer());
         nextFrame=requestAnimationFrame(update);
     }
     
