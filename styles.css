@@ -59,6 +59,11 @@ body{
 #quit{
     left: 78%;
 }
+#fps{
+	position: absolute;
+	color: lightgreen;
+	margin: 5px;
+}
 #player{
     position: absolute;
     top: 50%;
