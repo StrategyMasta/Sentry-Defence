@@ -13,6 +13,7 @@
     <div id="info" onclick="press.play();"><img src="img/info.png" alt="" width="100%" />Info</div>
     <div id="quit" onclick="press.play();"><img src="img/quit.png" alt="" width="100%" />Quit</div>
 </div>
+<div id="fps"></div>
 <img id="player" src="img/TD_0019_Package-----------------.png" alt="" draggable="false" />
 <canvas id="projectiles" draggable="false"></canvas>
 
@@ -37,18 +38,27 @@
     var press=new Audio("sounds/click.wav");
     var nextFrame;
     var tick=0;
+    var lastLoop;
+    var thisLoop;
+    var fps
     function setup(){
         player.style.visibility="visible";
         proj.style.visibility="visible";
         window.addEventListener("click", _=>newBullet("bullet1", true));
         //enemiesInt=setInterval(_=>enemies.push(new Enemy("turret1", false)), 1000);
+	lastLoop = new Date();
         update();
     }
     function update(){
         tick++;
+	tick=Wave(tick);
+    	thisLoop = new Date();
+    	fps = 1000 / (thisLoop - lastLoop);
+	document.getElementById("fps").innerHTML="FPS: "+Math.round(fps);
         rotatePlayer();
         moveProjectiles();
         enemies.forEach((item, index)=>item.moveToPlayer());
+	lastLoop = thisLoop;
         nextFrame=requestAnimationFrame(update);
     }
     

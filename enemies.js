@@ -38,11 +38,17 @@ class Enemy{
         this.enemy.style.left=this.x+"px";
     }
     moveToPlayer(){
-        enemies.forEach((item, index)=>{
-            item.x+=Math.cos(item.angle/(180/Math.PI)-Math.PI/2)*7;
-            item.y+=Math.sin(item.angle/(180/Math.PI)-Math.PI/2)*7;
-            item.enemy.style.top=item.y+"px";
-            item.enemy.style.left=item.x+"px";
-        });
+        this.x+=Math.cos(this.angle/(180/Math.PI)-Math.PI/2)*7;
+        this.y+=Math.sin(this.angle/(180/Math.PI)-Math.PI/2)*7;
+        this.enemy.style.top=this.y+"px";
+        this.enemy.style.left=this.x+"px";
+	if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+		document.body.removeChild(this.enemy);
+		enemies.splice(enemies.indexOf(this), 1);
+	}
+	if(Math.abs(this.x+enemySize[this.type][0]/2-innerWidth/2)<50 && Math.abs(this.y+enemySize[this.type][1]/2-innerHeight/2)<50){
+		document.body.removeChild(this.enemy);
+		enemies.splice(enemies.indexOf(this), 1);
+	}
     }
-}
+};
