@@ -7,13 +7,22 @@
 </head>
 <body>
 
-<div id="startMenu" onclick="this.style.visibility='hidden'; this.style.animationName=''; document.getElementById('menu').style.top='50%'; menuTheme.play();"><br /><br /><br /><br /><br /><br /><br /><br /><br />Click To Play</div>
+<div id="startMenu" onclick="this.style.visibility='hidden'; this.style.animationName=''; document.getElementById('menu').style.top='50%'; menuTheme.play(); openFullscreen();"><br /><br /><br /><br /><br /><br /><br /><br /><br />Click To Play</div>
 <div id="menu">
     <div id="start" onclick="document.getElementById('menu').style.top='127%'; menuTheme.pause(); press.play(); setup();"><img src="img/start.png" alt="" width="100%" />Start</div>
     <div id="info" onclick="press.play();"><img src="img/info.png" alt="" width="100%" />Info</div>
     <div id="quit" onclick="press.play();"><img src="img/quit.png" alt="" width="100%" />Quit</div>
 </div>
+<div id="fps"></div>
 <img id="player" src="img/TD_0019_Package-----------------.png" alt="" draggable="false" />
+<div id="rightWrapper">
+	
+	<div id="score">Score: </div>
+	<div id="lives">Lives: 20</div>
+	<div id="enemiesLeft">Enemies Left: </div>
+	<div id="wave">Wave: 1</div>
+	
+</div>
 <canvas id="projectiles" draggable="false"></canvas>
 
 <footer>A GAME MADE BY: MAKSYMILIAN NOWAK &copy;2021</footer>
@@ -37,18 +46,45 @@
     var press=new Audio("sounds/click.wav");
     var nextFrame;
     var tick=0;
+    var lastLoop;
+    var thisLoop;
+    var fps;
+    function openFullscreen() {
+      if(document.getElementsByTagName("html")[0].requestFullscreen) document.getElementsByTagName("html")[0].requestFullscreen();
+      else if(document.getElementsByTagName("html")[0].webkitRequestFullscreen) document.getElementsByTagName("html")[0].webkitRequestFullscreen();
+      else if(document.getElementsByTagName("html")[0].msRequestFullscreen) document.getElementsByTagName("html")[0].msRequestFullscreen();
+    }
     function setup(){
         player.style.visibility="visible";
         proj.style.visibility="visible";
+        document.getElementById("rightWrapper").style.visibility="visible";
         window.addEventListener("click", _=>newBullet("bullet1", true));
         //enemiesInt=setInterval(_=>enemies.push(new Enemy("turret1", false)), 1000);
+        lastLoop = new Date();
         update();
     }
     function update(){
-        tick++;
+        if(!wavePause){
+            tick++;
+            tick=Wave(tick);
+        } else{
+            tick++;
+            if(tick%120==0) wavePause=false;
+        }
+    	thisLoop = new Date();
+    	fps = 1000 / (thisLoop - lastLoop);
+        if(tick%5==0) document.getElementById("fps").innerHTML="FPS: "+Math.round(fps);
         rotatePlayer();
         moveProjectiles();
-        enemies.forEach((item, index)=>item.moveToPlayer());
+        enemies.forEach((item, index)=>{
+            if(item.hp<0){
+                document.body.removeChild(item.enemy);
+                enemies.splice(index, 1);
+            }
+            item.move();
+        });
+        animation();
+        lastLoop = thisLoop;
         nextFrame=requestAnimationFrame(update);
     }
     

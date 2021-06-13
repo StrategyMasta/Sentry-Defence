@@ -9,6 +9,7 @@ var wepAmmo={};
 var bullets=[];
 var bulletSize={bullet1: [20, 20]};
 var img={bullet1: new Image()};
+var animations=[];
 img.bullet1.setAttribute("src", "img/bullet1.png");
 proj.width=innerWidth;
 proj.height=innerHeight;
@@ -46,9 +47,40 @@ function moveProjectiles(){
         item.x+=Math.cos(item.angle)*10;
         item.y+=Math.sin(item.angle)*10;
         projCtx.drawImage(img[item.type], item.x-bulletSize[item.type][0]/2, item.y-bulletSize[item.type][1]/2);
-        //if'y, czy trafilismy
+        collision(item);
         if(item.x+bulletSize[item.type][0]<0 || item.x>proj.width || item.y+bulletSize[item.type][1]<0 || item.y>proj.height){
             bullets.splice(index, 1);
         }
+    });
+}
+function collision(bullet){
+	let hitEnemy=enemies.filter((item, index)=>{
+		if(item.x-bulletSize[bullet.type][0]<bullet.x && item.y-bulletSize[bullet.type][1]<bullet.y && item.x+enemySize[item.type][0]>bullet.x && item.y+enemySize[item.type][1]>bullet.y) return true;
+	})[0];
+	if(hitEnemy!=undefined) {
+		hitEnemy.hp-=34;
+		projCtx.clearRect(bullet.x-1, bullet.y-1, bulletSize[bullet.type][0]+2, bulletSize[bullet.type][1]+2);
+		bullets.splice(bullets.indexOf(bullet), 1);
+        animations.push({
+            x: hitEnemy.x+enemySize[hitEnemy.type][0]/2,
+            y: hitEnemy.y+enemySize[hitEnemy.type][1]/2,
+            image: new Image(),
+            currFrame: 0,
+            frameCount: 9,
+            type: "explosion",
+            size: [64, 64]
+        });
+        hitEnemy.cooldown=12;
+        hitEnemy.direction="knockback";
+	}
+}
+function animation(){
+    animations.forEach((item, index)=>{
+        //anim1Ctx.clearRect(item[2]-item[6]/2-1, item[3]-item[6]/2-1, item[6]+2, item[6]+2);
+        item.image.setAttribute("src", "img/"+item.type+"/"+item.currFrame+".png");
+        projCtx.drawImage(item.image, item.x-item.size[0]/2, item.y-item.size[1]/2);
+        item.currFrame++;
+        if(item.frameCount!=item.currFrame) animations[index].image.setAttribute("src", "img/"+item.type+"/"+item.currFrame+".png");
+        if(item.frameCount==item.currFrame) {/*setTimeout(function() {anim1Ctx.clearRect(item[2]-item[6]/2-1, item[3]-item[6]/2-1, item[6]+2, item[6]+2)}, 2000/60);*/ animations.splice(index, 1);}
     });
 }

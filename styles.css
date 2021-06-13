@@ -59,6 +59,23 @@ body{
 #quit{
     left: 78%;
 }
+#fps{
+	position: absolute;
+	color: lightgreen;
+	margin: 5px;
+}
+#rightWrapper{
+	position: absolute;
+	top: 20%;
+	width: 13%;
+	height: 80%;
+	opacity: 0.4;
+	color: white;
+	font-size: 22px;
+	text-align: left;
+	pointer-events: none;
+    visibility: hidden;
+}
 #player{
     position: absolute;
     top: 50%;

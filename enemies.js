@@ -7,6 +7,9 @@ class Enemy{
         this.baby=baby;
         this.x=0;
         this.y=0;
+        this.hp=100;
+        this.direction="moveToPlayer";
+        this.cooldown=12;
         if(!baby){
             let random=Math.floor(Math.random()*4)+1;
             if(random==1){
@@ -37,12 +40,37 @@ class Enemy{
         this.enemy.style.top=this.y+"px";
         this.enemy.style.left=this.x+"px";
     }
-    moveToPlayer(){
-        enemies.forEach((item, index)=>{
-            item.x+=Math.cos(item.angle/(180/Math.PI)-Math.PI/2)*7;
-            item.y+=Math.sin(item.angle/(180/Math.PI)-Math.PI/2)*7;
-            item.enemy.style.top=item.y+"px";
-            item.enemy.style.left=item.x+"px";
-        });
+    move(){
+        this[this.direction]();
     }
-}
+    moveToPlayer(){
+        this.x+=Math.cos(this.angle/(180/Math.PI)-Math.PI/2)*6;
+        this.y+=Math.sin(this.angle/(180/Math.PI)-Math.PI/2)*6;
+        this.enemy.style.top=this.y+"px";
+        this.enemy.style.left=this.x+"px";
+        if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+            document.body.removeChild(this.enemy);
+            enemies.splice(enemies.indexOf(this), 1);
+        }
+        if(Math.abs(this.x+enemySize[this.type][0]/2-innerWidth/2)<50 && Math.abs(this.y+enemySize[this.type][1]/2-innerHeight/2)<50){
+            document.body.removeChild(this.enemy);
+            enemies.splice(enemies.indexOf(this), 1);
+        }
+    }
+    knockback(){
+        this.x-=Math.cos(this.angle/(180/Math.PI)-Math.PI/2)*this.cooldown;
+        this.y-=Math.sin(this.angle/(180/Math.PI)-Math.PI/2)*this.cooldown;
+        this.enemy.style.top=this.y+"px";
+        this.enemy.style.left=this.x+"px";
+        this.cooldown--;
+        if(this.cooldown<=0) this.direction="moveToPlayer";
+        if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+            document.body.removeChild(this.enemy);
+            enemies.splice(enemies.indexOf(this), 1);
+        }
+        if(Math.abs(this.x+enemySize[this.type][0]/2-innerWidth/2)<50 && Math.abs(this.y+enemySize[this.type][1]/2-innerHeight/2)<50){
+            document.body.removeChild(this.enemy);
+            enemies.splice(enemies.indexOf(this), 1);
+        }
+    }
+};
