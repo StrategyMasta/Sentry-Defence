@@ -21,38 +21,48 @@ body{
     50%{opacity: 0.4;}
     100%{opacity: 1;}
 }
+@keyframes fadeIn{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
 #startMenu{
     position: absolute;
     width: 100%;
     height: 100%;
+    line-height: 100vh;
     animation-name: fadeInOut;
     animation-duration: 0.8s;
     animation-iteration-count: infinite;
     font-size: 32px;
     z-index: 2;
 }
-#menu{
+#menu, #infoMenu{
     position: absolute;
     top: -27%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 75%;
-    height: 50%;
+    width: 75vw;
+    height: 50vh;
     border-radius: 20px;
     border: 2px solid white;
-    transition: all 1s ease-in-out;
+    visibility: hidden;
+    transition: top 1s ease-in-out;
+}
+#infoMenu{
+    top: 50%;
+    font-size: 1.34em;
 }
 #start, #info, #quit{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all 0.7s ease-in-out;
+    //transition: all 0.7s ease-in-out;
     cursor: pointer;
 }
-#start:hover, #info:hover, #quit:hover{
-    transform: translate(-50%, -50%) scale(1.3) rotateY(360deg);
-}
+//#start:hover, #info:hover, #quit:hover{
+//    transform: translate(-50%, -50%) scale(1.3) rotateY(360deg);
+//}
 #info{
     left: 22%;
 }
@@ -64,25 +74,87 @@ body{
 	color: lightgreen;
 	margin: 5px;
 }
-#rightWrapper{
+#leftWrapper{
 	position: absolute;
 	top: 20%;
-	width: 13%;
-	height: 80%;
+	width: 90%;
+	height: 17%;
 	opacity: 0.4;
 	color: white;
-	font-size: 22px;
+	font-size: 1em;
 	text-align: left;
 	pointer-events: none;
     visibility: hidden;
+}
+#upgrades{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65vw;
+    height: 65vh;
+    border: 2px solid white;
+    border-radius: 10px;
+    animation-duration: 1.5s;
+    animation-iteration-count: 1;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 4;
+}
+.upgrade{
+    width: 19.5vw;
+    height: 7vh;
+    line-height: 7vh;
+    margin: 1%;
+    font-size: 1.1em;
+    border: 2px dashed white;
+    border-radius: 8px;
+    float: left;
+}
+.upgradeButton{
+    height: 11.05vh;
+    margin: 1%;
+    margin-top: -1%;
+    cursor: pointer;
+    float: left;
+}
+.dots{
+    margin-top: 1%;
+    float: left;
+    width: 1%;
+    height: 3em;
+}
+.dot{
+    width: 100%;
+    height: 28%;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    background-color: black;
 }
 #player{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 6%;
     visibility: hidden;
     z-index: 3;
+}
+#youLose{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 3em;
+    background-image: url(img/galaxy1.jpg);
+    visibility: hidden;
+    z-index: 10;
+}
+#youLoseText{
+    height: 100%;
+    line-height: 100vh;
+    animation-name: fadeInOut;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
 }
 #projectiles{
     position: absolute;

@@ -1,6 +1,7 @@
 var enemySize={turret1: [41, 62]};
 var enemies=[];
 var enemiesInt;
+var knockback=12;
 class Enemy{
     constructor(type, baby){
         this.type=type;
@@ -9,7 +10,7 @@ class Enemy{
         this.y=0;
         this.hp=100;
         this.direction="moveToPlayer";
-        this.cooldown=12;
+        this.cooldown=knockback;
         if(!baby){
             let random=Math.floor(Math.random()*4)+1;
             if(random==1){
@@ -48,11 +49,17 @@ class Enemy{
         this.y+=Math.sin(this.angle/(180/Math.PI)-Math.PI/2)*6;
         this.enemy.style.top=this.y+"px";
         this.enemy.style.left=this.x+"px";
-        if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+        /*if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+            enemiesAlive--;
             document.body.removeChild(this.enemy);
             enemies.splice(enemies.indexOf(this), 1);
-        }
+        }*/
         if(Math.abs(this.x+enemySize[this.type][0]/2-innerWidth/2)<50 && Math.abs(this.y+enemySize[this.type][1]/2-innerHeight/2)<50){
+            let num=Math.floor(Math.random()*2);
+            die[num].currentTime=0;
+            die[num].play();
+            lives--;
+            enemiesAlive--;
             document.body.removeChild(this.enemy);
             enemies.splice(enemies.indexOf(this), 1);
         }
@@ -64,11 +71,17 @@ class Enemy{
         this.enemy.style.left=this.x+"px";
         this.cooldown--;
         if(this.cooldown<=0) this.direction="moveToPlayer";
-        if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+        /*if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
+            enemiesAlive--;
             document.body.removeChild(this.enemy);
             enemies.splice(enemies.indexOf(this), 1);
-        }
+        }*/
         if(Math.abs(this.x+enemySize[this.type][0]/2-innerWidth/2)<50 && Math.abs(this.y+enemySize[this.type][1]/2-innerHeight/2)<50){
+            let num=Math.floor(Math.random()*2);
+            die[num].currentTime=0;
+            die[num].play();
+            lives--;
+            enemiesAlive--;
             document.body.removeChild(this.enemy);
             enemies.splice(enemies.indexOf(this), 1);
         }
