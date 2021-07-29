@@ -11,6 +11,8 @@ class Enemy{
         this.hp=100;
         this.direction="moveToPlayer";
         this.cooldown=knockback;
+        this.moveCooldown=14;
+        this.randomNum=(Math.random()*(Math.PI-0.5))-(Math.PI-0.5)/2;
         if(!baby){
             let random=Math.floor(Math.random()*4)+1;
             if(random==1){
@@ -45,10 +47,18 @@ class Enemy{
         this[this.direction]();
     }
     moveToPlayer(){
-        this.x+=Math.cos(this.angle/(180/Math.PI)-Math.PI/2)*6;
-        this.y+=Math.sin(this.angle/(180/Math.PI)-Math.PI/2)*6;
+        this.x+=Math.cos(this.angle/(180/Math.PI)-Math.PI/2+this.randomNum)*6;
+        this.y+=Math.sin(this.angle/(180/Math.PI)-Math.PI/2+this.randomNum)*6;
         this.enemy.style.top=this.y+"px";
         this.enemy.style.left=this.x+"px";
+        let angle=Math.atan2(innerHeight/2-this.y, innerWidth/2-this.x);
+        this.angle=(180/Math.PI*angle+90)%360;
+        this.enemy.style.transform="rotate("+this.angle+"deg)";
+        this.moveCooldown--;
+        if(this.moveCooldown==0){
+            this.moveCooldown=14;
+            this.randomNum=(Math.random()*(Math.PI-0.5))-(Math.PI-0.5)/2;
+        }
         /*if(this.y+enemySize[this.type][1]<0 || this.x>proj.width || this.y>proj.height || this.x+enemySize[this.type][0]<0){
             enemiesAlive--;
             document.body.removeChild(this.enemy);
@@ -87,3 +97,12 @@ class Enemy{
         }
     }
 };
+class Drone{
+    constructor(turret, shield){
+        this.turret=turret;
+        this.shield=shield;
+    }
+    move(){
+        
+    }
+}
