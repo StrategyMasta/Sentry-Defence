@@ -36,17 +36,25 @@ body{
     font-size: 32px;
     z-index: 2;
 }
-#menu, #infoMenu{
+#menu, #infoMenu, #menu2{
     position: absolute;
     top: -27%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 75vw;
     height: 50vh;
+    background-color: dimgray;
     border-radius: 20px;
     border: 2px solid white;
     visibility: hidden;
     transition: top 1s ease-in-out;
+    z-index: 2;
+}
+#menu{
+    background-color: transparent;
+}
+#menu2{
+    z-index: 0;
 }
 #infoMenu{
     top: 50%;
@@ -59,6 +67,7 @@ body{
     transform: translate(-50%, -50%);
     //transition: all 0.7s ease-in-out;
     cursor: pointer;
+    z-index: 3;
 }
 //#start:hover, #info:hover, #quit:hover{
 //    transform: translate(-50%, -50%) scale(1.3) rotateY(360deg);
@@ -162,6 +171,11 @@ body{
     left: 0;
     visibility: hidden;
     z-index: 2;
+}
+#particlesMenu{
+    position: absolute;
+    visibility: hidden;
+    z-index: 1;
 }
 footer{
     position: absolute;
