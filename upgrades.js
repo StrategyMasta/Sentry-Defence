@@ -30,13 +30,13 @@ function particleHover(node){
     particlesMenu.style.visibility = "visible";
     particlesMenu.style.top = (node.getBoundingClientRect().top + node.getBoundingClientRect().height/2 - 125) + "px";
     particlesMenu.style.left = (node.getBoundingClientRect().left + node.getBoundingClientRect().width/2 - 150) + "px";
-    animate();
+    if(particleArray == 0x0) animate();
 }
 function particleOut(){
     selectedNode = null;
-    particlesMenu.style.visibility = "hidden";
-    cancelAnimationFrame(animationLoop);
-    particlesMenuCtx.clearRect(-1, -1, particlesMenu.width + 2, particlesMenu.height + 2);
+    //particlesMenu.style.visibility = "hidden";
+    //cancelAnimationFrame(animationLoop);
+    //particlesMenuCtx.clearRect(-1, -1, particlesMenu.width + 2, particlesMenu.height + 2);
 }
 class Particle{
     constructor(num){
@@ -69,13 +69,22 @@ class Particle{
             particlesMenuCtx.fill();
             particlesMenuCtx.stroke();
         }
+        else particleArray.splice(particleArray.indexOf(this), 1);
     }
 }
 var animationLoop;
 function animate(){
     particlesMenuCtx.fillStyle = "rgba(105, 105, 105, 0.15)";
     particlesMenuCtx.fillRect(0, 0, particlesMenu.width, particlesMenu.height);
-    let particle = new Particle(Math.floor(Math.random() * 2));
-    particle.draw();
+    if(selectedNode != null){
+        let particle = new Particle(Math.floor(Math.random() * 2));
+        particleArray.push(particle);
+        particle.draw();
+    }
+    else if(particleArray.length == 0x0){
+        particlesMenu.style.visibility = "hidden";
+        cancelAnimationFrame(animationLoop);
+        particlesMenuCtx.clearRect(-1, -1, particlesMenu.width + 2, particlesMenu.height + 2);
+    }
     animationLoop = requestAnimationFrame(animate);
 }
